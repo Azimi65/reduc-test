@@ -5,4 +5,4 @@ export const store=configureStore({
         Users:UsersReducer,
     }
 })
-// store.dispatch(fetchUsers())
+store.dispatch(fetchUsers())

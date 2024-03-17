@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react"; 
-import { fetchUsers, selectAllUsers } from "../reducers/UsersSlice";
+import { fetchUsers, selectAllUsers ,deleteUser} from "../reducers/UsersSlice";
 import { Link } from "react-router-dom";
 
 const UsersList = () => {
@@ -12,7 +12,10 @@ const UsersList = () => {
 
  
   const allUsers = useSelector(selectAllUsers);
-
+  
+  const handleDeleteUser=(userId)=>{
+    dispatch(deleteUser(userId))
+  }
   return (
     <div className="w-full flex flex-col mt-10">
       <Link to="/add">
@@ -36,6 +39,7 @@ const UsersList = () => {
               </td>
               <td>{user.family}</td>
               <td>{user.grade}</td>
+              <td className="cursor-pointer" onClick={()=>handleDeleteUser(user.id)}>&otimes;</td>
             </tr>
           ))}
         </tbody>

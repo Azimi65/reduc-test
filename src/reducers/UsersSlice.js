@@ -37,6 +37,14 @@ export const updateUser = createAsyncThunk("users/updateUser",async ({ userId, n
             console.log(err.message)
         }
   })
+  export const deleteUser = createAsyncThunk("users/deleteUser", async(userId)=>{
+    try{
+      const response = await axios.delete(`http://localhost:9000/users/${userId}`)
+      return userId
+    }catch(err){
+        console.log(err.message)
+    }
+  })
 const UsersSlice=createSlice({
     name:"Users",
     initialState,
@@ -45,6 +53,7 @@ const UsersSlice=createSlice({
         builder.addCase(fetchUsers.fulfilled,usersAdaptor.upsertMany)
        .addCase(updateUser.fulfilled,usersAdaptor.updateOne)
         .addCase(createUser.fulfilled,usersAdaptor.setOne)
+        .addCase(deleteUser.fulfilled,usersAdaptor.removeOne)
 }
 });
 export const {selectAll:selectAllUsers,selectById,updateOne}=usersAdaptor.getSelectors(state=>state.Users)
