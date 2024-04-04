@@ -16,7 +16,7 @@ const User = () => {
       <div className="flex gap-2"><span>نام خانوادگی:</span><span>{currentUser.family}</span></div>
       <div className="flex gap-2"><span>گرید:</span><span>{currentUser.grade}</span></div>
       <div className="flex gap-3 mt-5">
-        <Link to={`/edit/${userId}`}><button className="bg-indigo-200 border border-indigo-400 rounded p-2">ویرایش کاربر</button></Link>
+        <Link to={`/edit/users/${userId}`}><button className="bg-indigo-200 border border-indigo-400 rounded p-2">ویرایش کاربر</button></Link>
         <button className="bg-green-200 border border-green-400 rounded p-2">حذف کاربر</button>
       </div>
       

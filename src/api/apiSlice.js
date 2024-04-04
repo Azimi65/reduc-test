@@ -18,8 +18,8 @@ export const apiSlice = createApi({
         }),
         editUser:builder.mutation({
             query:(user)=>({
-                url:`/users/${user.Id}`,
-                method:'PUT',
+                url:`edit/users/${user.id}`,
+                method:"PUT",
                 body:user
             })
         })

@@ -36,7 +36,7 @@ const router = createBrowserRouter([
     )
   },
   {
-    path:"/edit/:userId",
+    path:"/edit/users/:userId",
     element:(
       <MainLayouts><EditUser/></MainLayouts>
     )
