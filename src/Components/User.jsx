@@ -1,9 +1,11 @@
 import { useParams ,Link} from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectById } from "../reducers/UsersSlice";
+import { useGetUserQuery } from "../api/apiSlice";
 const User = () => {
   const { userId } = useParams();
-  const currentUser = useSelector((state) => selectById(state, userId));
+  // const currentUser = useSelector((state) => selectById(state, userId));
+  const {data:currentUser}=useGetUserQuery(userId);
   if(!currentUser){
     return(<div>کاربر موردنظر وجود ندارد</div>)
   }

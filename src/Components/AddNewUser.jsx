@@ -3,12 +3,14 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createUser } from "../reducers/UsersSlice";
 import {  useNavigate } from "react-router-dom";
+import { useCreateUserMutation } from "../api/apiSlice";
 const AddNewUser=()=>{
     const navigate=useNavigate()
     const dispatch=useDispatch()
     const [userName, setUserName] = useState("");
     const [userFamily, setUserFamily] = useState("");
     const [userGrade, setUserGrade] = useState(""); 
+    const [addNewUser,{isLoading}]=useCreateUserMutation();
     const handleUserName = (e) => {
         setUserName(e.target.value);
       };
@@ -20,18 +22,24 @@ const AddNewUser=()=>{
       const handleUserGrade = (e) => {
         setUserGrade(e.target.value);
       };
-      const handleSubmitForm = () => {
-        dispatch(
-          createUser({  
+      const handleSubmitForm = async () => {
+        // dispatch(
+        //   createUser({  
      
              
-                id:nanoid(),    
-                name: userName,
-                family: userFamily,
-                grade: userGrade,
+        //         id:nanoid(),    
+        //         name: userName,
+        //         family: userFamily,
+        //         grade: userGrade,
            
-          })
-        );
+        //   })
+        // );
+        await addNewUser({
+          id:nanoid(),
+          name:userName,
+          family:userFamily,
+          grade:userGrade
+        }).unwrap()
         navigate("/");
       };
     return(

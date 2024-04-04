@@ -1,24 +1,27 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
-import { selectById, updateUser } from "../reducers/UsersSlice"; // Changed import here
+// import { selectById, updateUser } from "../reducers/UsersSlice"; // Changed import here
 import { useEffect, useState } from "react";
+import { useEditUserMutation, useGetUserQuery } from "../api/apiSlice";
 
 const EditUser = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userId } = useParams();
-  const selectedUser = useSelector((state) => selectById(state, userId));
+  // const selectedUser = useSelector((state) => selectById(state, userId));
+  const {data:user}=useGetUserQuery(userId)
+  
   const [userName, setUserName] = useState("");
   const [userFamily, setUserFamily] = useState("");
   const [userGrade, setUserGrade] = useState("");
-
+  const[updateUser,{isLoading}]=useEditUserMutation(user);
   useEffect(() => {
-    if (selectedUser) {
-      setUserName(selectedUser.name);
-      setUserFamily(selectedUser.family);
-      setUserGrade(selectedUser.grade);
+    if (user) {
+      setUserName(user.name);
+      setUserFamily(user.family);
+      setUserGrade(user.grade);
     }
-  }, [selectedUser]);
+  }, []);
 
   const handleUserName = (e) => {
     setUserName(e.target.value);
@@ -32,21 +35,27 @@ const EditUser = () => {
     setUserGrade(e.target.value);
   };
 
-  const handleEditForm = () => {
-    dispatch(
-      updateUser({   // Changed parameters here
-        userId: userId, // Pass userId as part of an object
-        newUser: {      // Pass newUser as part of an object
-          name: userName,
-          family: userFamily,
-          grade: userGrade,
-        },
-      })
-    );
+  const handleEditForm = async() => {
+    // dispatch(
+    //   updateUser({   // Changed parameters here
+    //     userId: userId, // Pass userId as part of an object
+    //     newUser: {      // Pass newUser as part of an object
+    //       name: userName,
+    //       family: userFamily,
+    //       grade: userGrade,
+    //     },
+    //   })
+    // );
+     await updateUser({
+      id: user.id, 
+      name: userName,
+      family: userFamily,
+      grade: userGrade    
+    });
     navigate("/");
   };
 
-  if (!selectedUser) {
+  if (isLoading) {
     return <div>Loading...</div>;
   }
 
