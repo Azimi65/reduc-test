@@ -14,7 +14,7 @@ const EditUser = () => {
   const [userName, setUserName] = useState("");
   const [userFamily, setUserFamily] = useState("");
   const [userGrade, setUserGrade] = useState("");
-  const[updateUser,{isLoading}]=useEditUserMutation(user);
+  const[updateUser,{isLoading}]=useEditUserMutation();
   useEffect(() => {
     if (user) {
       setUserName(user.name);
@@ -35,7 +35,7 @@ const EditUser = () => {
     setUserGrade(e.target.value);
   };
 
-  const handleEditForm = async() => {
+  const handleEditForm = () => {
     // dispatch(
     //   updateUser({   // Changed parameters here
     //     userId: userId, // Pass userId as part of an object
@@ -46,8 +46,8 @@ const EditUser = () => {
     //     },
     //   })
     // );
-     await updateUser({
-      id: userId, 
+     updateUser({
+      // id: userId, 
       name: userName,
       family: userFamily,
       grade: userGrade    
@@ -91,7 +91,7 @@ const EditUser = () => {
 
       <button
         className="border-indigo-400 bg-gray-200 mt-2 p-2 rounded"
-        type="button" // Change type to "button" to prevent form submission
+        type="submit" // Change type to "button" to prevent form submission
         onClick={handleEditForm}
       >
         ویرایش
