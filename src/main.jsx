@@ -20,7 +20,7 @@ const router = createBrowserRouter([
     children: [{}],
   },
   {
-    path: "/:userId",
+    path: "users/:userId",
     element: (
       <MainLayouts>
         <User />

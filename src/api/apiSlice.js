@@ -6,10 +6,11 @@ export const apiSlice = createApi({
     endpoints: (builder)=>({
         getUsers:builder.query({
             query:()=>"/users",
-            providesTags:["BLOG"]
+            providesTags:(result=[],error,arg)=>['BLOG',...result.map(({id})=>({type:'BLOG',id}))]
         }),
         getUser:builder.query({
-            query:(userId)=>`users/${userId}`
+            query:(userId)=>`users/${userId}`,
+            providesTags:(result,error,arg)=>[{type:'BLOG',id:arg}]
         }),
         createUser:builder.mutation({
             query:(user)=>({
@@ -21,12 +22,20 @@ export const apiSlice = createApi({
         }),
         editUser:builder.mutation({
             query:(user)=>({
-                url:`edit/users/${user.id}`,
+                url:`users/${user.id}`,
                 method:"PUT",
                 body:user
+            }),
+            invalidatesTags:(result,error,arg)=>[{type:'BLOG',id:arg.id}]
+        }),
+        deleteUser:builder.mutation({
+            query:(user)=>({
+               url:`users/${user.id}`,
+               method:'DELETE', 
+               body:user
             }),
             invalidatesTags:(result,error,arg)=>[{type:'BLOG',id:arg.id}]
         })
     }),
 })
-export const {useGetUsersQuery,useGetUserQuery,useCreateUserMutation,useEditUserMutation}=apiSlice;
+export const {useGetUsersQuery,useGetUserQuery,useCreateUserMutation,useEditUserMutation,useDeleteUserMutation}=apiSlice;

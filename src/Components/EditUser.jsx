@@ -14,7 +14,7 @@ const EditUser = () => {
   const [userName, setUserName] = useState("");
   const [userFamily, setUserFamily] = useState("");
   const [userGrade, setUserGrade] = useState("");
-  const[updateUser,{isLoading}]=useEditUserMutation();
+  const[updateUser,{isLoading}]=useEditUserMutation(user);
   useEffect(() => {
     if (user) {
       setUserName(user.name);
@@ -35,26 +35,42 @@ const EditUser = () => {
     setUserGrade(e.target.value);
   };
 
-  const handleEditForm = () => {
-    // dispatch(
-    //   updateUser({   // Changed parameters here
-    //     userId: userId, // Pass userId as part of an object
-    //     newUser: {      // Pass newUser as part of an object
-    //       name: userName,
-    //       family: userFamily,
-    //       grade: userGrade,
-    //     },
-    //   })
-    // );
-     updateUser({
-      // id: userId, 
-      name: userName,
-      family: userFamily,
-      grade: userGrade    
-    }).unwrap();
-    navigate("/");
+  // const handleEditForm = () => {
+  //   // dispatch(
+  //   //   updateUser({   // Changed parameters here
+  //   //     userId: userId, // Pass userId as part of an object
+  //   //     newUser: {      // Pass newUser as part of an object
+  //   //       name: userName,
+  //   //       family: userFamily,
+  //   //       grade: userGrade,
+  //   //     },
+  //   //   })
+  //   // );
+  //   updateUser({
+  //     id: userId, 
+  //     name: userName,
+  //     family: userFamily,
+  //     grade: userGrade    
+  //   }).unwrap();
+  //   navigate("/");
+  // };
+  const handleEditForm = async () => {
+    try {
+      const result = await updateUser({
+        id: userId, 
+        name: userName,
+        family: userFamily,
+        grade: userGrade    
+      });
+      
+      console.log("User updated successfully:", result);
+      
+      navigate("/");
+    } catch (error) {
+      console.error("An error occurred while updating the user:", error);
+    }
   };
-
+  
   if (isLoading) {
     return <div>Loading...</div>;
   }
